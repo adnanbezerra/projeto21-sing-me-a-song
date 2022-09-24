@@ -20,3 +20,11 @@ export function createMockRecommendation() {
         youtubeLink: "https://youtu.be/PyMz0w2UC9s"
     }
 }
+
+export function completeMockRecommendation() {
+    return {
+        ...createMockRecommendation(),
+        id: 1,
+        score: 0
+    }
+}
