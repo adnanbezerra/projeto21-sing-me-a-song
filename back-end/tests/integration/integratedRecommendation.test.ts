@@ -28,7 +28,7 @@ describe("recommendation route integration tests", () => {
     })
 
     it("post repeated recommendation", async () => {
-        const newRecommendation = createValidRecommendation();
+        const newRecommendation = createMockRecommendation();
         await server.post("/recommendations").send(newRecommendation);
 
         const request = await server.post("/recommendations").send(newRecommendation);
