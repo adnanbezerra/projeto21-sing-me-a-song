@@ -1,6 +1,6 @@
 beforeEach(async () => {
     await cy.request('POST', 'http://localhost:5000/recommendations/reset', {});
-  });
+});
 
 describe("create new recommendation testing", () => {
     it("it should succesfully create a new recommendation", () => {
@@ -13,10 +13,48 @@ describe("create new recommendation testing", () => {
 
         cy.get("#button").click();
 
-        cy.wait("@postRecommendation");
+        cy.wait('@postRecommendation').should((response) => {
+            const { statusCode } = response.response;
 
-        cy.get("@postRecommendation").should((response) => {
-            expect(response.status).to.eq(201);
+            expect(statusCode).to.eq(201);
+        })
+    })
+
+    it("it should fail because of wrong data", () => {
+        cy.visit("http://localhost:3000");
+
+        cy.get("#name").type("nomeee");
+        cy.get("#link").type(" ");
+
+        cy.intercept("POST", "/recommendations").as("postRecommendation");
+
+        cy.get("#button").click();
+
+        cy.wait('@postRecommendation').should((response) => {
+            const { statusCode } = response.response;
+
+            expect(statusCode).to.eq(422);
+        })
+    })
+
+    it("it should fail because of repeated data", () => {
+        cy.visit("http://localhost:3000");
+
+        cy.get("#name").type("Deux Arabesques");
+        cy.get("#link").type("https://youtu.be/9Fle2CP8gR0");
+        cy.get("#button").click();
+
+        cy.get("#name").type("Deux Arabesques");
+        cy.get("#link").type("https://youtu.be/9Fle2CP8gR0");
+        
+        cy.intercept("POST", "/recommendations").as("postRecommendation");
+
+        cy.get("#button").click();
+
+        cy.wait('@postRecommendation').should((response) => {
+            const { statusCode } = response.response;
+
+            expect(statusCode).to.eq(409);
         })
     })
 })

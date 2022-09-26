@@ -10,7 +10,7 @@ export default function Home() {
   }
 
   return (
-    <>
+    <div data-test-id="content">
       {
         recommendations.map(recommendation => (
           <Recommendation
@@ -27,6 +27,6 @@ export default function Home() {
           <div>No recommendations yet! Create your own :)</div>
         )
       }
-    </>
+    </div>
   )
 }
