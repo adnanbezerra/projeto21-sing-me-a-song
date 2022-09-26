@@ -53,4 +53,11 @@ cd back-end
 npm run test
 ```
 
-And, to test the front-end, you have to navigate towards the front-end directory and then run
+And, to test the front-end, you have to navigate towards the front-end directory and then run `npx cypress open`:
+
+```
+cd ../front-end
+npx cypress open
+```
+
+And then click Run Integration Tests
